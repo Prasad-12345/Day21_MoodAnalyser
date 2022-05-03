@@ -1,6 +1,7 @@
 package com.bridgelabz.moodanalysertest;
 
 import com.bridgelabz.moodanalyser.MoodAnalyser;
+import com.bridgelabz.moodanalyser.MoodAnalyzerException;
 import com.bridgelabz.moodanalyser.RefactorMoodAnalyser;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,10 +56,38 @@ public class MoodAnalyserTest {
     /*
      *When given invalid message then it should return happy
      */
-    @Test
+//    @Test
     public void givenMessage_WhenNull_ShouldReturnHappy(){
         RefactorMoodAnalyser moodAnalyser1 = new RefactorMoodAnalyser(null);
         String mood = moodAnalyser1.analyseMood();
         Assert.assertEquals("happy", mood);
+    }
+
+    /*
+     *Null pointer exception
+     */
+    @Test
+    public void givenMessage_WhenNull_ShouldThrowMoodAnalysisNullException() {
+
+        RefactorMoodAnalyser moodAnalyzer1 = new RefactorMoodAnalyser(null);
+        try {
+            moodAnalyzer1.analyseMood();
+        } catch (MoodAnalyzerException e) {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.ENTERED_NULL, e.type);
+        }
+    }
+
+     /*
+      *Empty exception
+     */
+    @Test
+    public void givenMessage_WhenEmpty_ShouldThrowMoodAnalysisEmptyException() {
+
+        RefactorMoodAnalyser moodAnalyzer = new RefactorMoodAnalyser("");
+        try {
+            moodAnalyzer.analyseMood();
+        } catch (MoodAnalyzerException e) {
+            Assert.assertEquals(MoodAnalyzerException.ExceptionType.ENTERED_EMPTY, e.type);
+        }
     }
 }
